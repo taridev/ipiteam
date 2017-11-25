@@ -35,6 +35,14 @@ class User {
         $this->user_name = $user_name;
     }
 
+    public function setuser_pass($user_pass) {
+        $this->user_pass = $user_pass;
+    }
+
+    public function getuser_pass() {
+        return $this->user_pass;
+    }
+
     public function getuser_lvl() {
         return $this->user_lvl;
     }

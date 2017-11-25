@@ -2,7 +2,7 @@
     <div>
         <h1>IPI TEAM</h1>
         <div class="text-center">
-            <img src="http://d3nfwcxd527z59.cloudfront.net/content/uploads/2017/11/21113602/Michael-Owen.jpg" />
+            <img style="width: 100%;" src="http://d3nfwcxd527z59.cloudfront.net/content/uploads/2017/11/21113602/Michael-Owen.jpg" />
         </div>
         <h2>L'ASSOCIATION</h2>
         <p>

@@ -1,10 +1,91 @@
 <?php
 session_start();
-// require('./php/script/db-param.php');
+require('./php/script/db-param.php');
 require('php/class/asset.class.php');
 require('php/class/event.class.php');
 require('php/class/gallery.class.php');
 require('php/class/user.class.php');
+
+require('php/script/utils.php');
+
+$errors = [];
+$validators = [];
+/**
+ * LOGIN PROCESS
+ */
+if(isset($_POST['login-submit'])) {
+  // Correct form sent ?
+  if(!isset($_POST['username']) or !isset($_POST['password'])) {
+    $errors[] = 'Formulaire incorrect';
+  }
+  else {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+
+    $statement = $connection->query("SELECT * FROM users WHERE user_name = '{$username}'");
+    $results = $statement->fetchAll(PDO::FETCH_CLASS,'User');
+    if(sizeof($results) > 0) { 
+      if(password_verify($password, $results[0]->getuser_pass())) {
+        $_SESSION['login'] = $results[0]->getuser_name();
+				$_SESSION['level'] = $results[0]->getuser_lvl();
+				$validators[] = "Vous êtes maintenant identifié en tant que {$username}";
+      }
+      else {
+        $errors[] = 'Nom d\'utilisateur ou mot de passe incorrect';
+      }
+    }
+    else {
+      $errors[] = 'Nom d\'utilisateur ou mot de passe incorrect';
+    }
+  }
+}
+else if(isset($_POST['r-submit'])) {
+	$username = $_POST{'r-username'};
+	$user_mail = $_POST{'r-email'};
+	$user_passwd = $_POST {'r-password'};
+	$passwd_verif = $_POST {'r-password-verification'};
+
+	if($user_passwd != $passwd_verif) {
+		$errors[] = 'Les mots de passe ne correspondent pas';
+	}
+
+	else {
+		$statement = $connection->query("SELECT user_name FROM users WHERE user_name = '{$username}'"); 
+		
+		if($statement->fetchAll(PDO::FETCH_ASSOC)) {
+			$errors[] = 'Le nom d\'utilisateur est déjà utilisé.';
+		}
+		if(!filter_var($user_mail, FILTER_VALIDATE_EMAIL)) {
+			$errors[] = 'Vous devez entrer une adresse email valide.';
+		}
+		if($user_passwd != $passwd_verif) {
+			$errors[] = 'Les mots de passe ne correspondent pas.';
+		}
+		if(sizeof($errors) == 0) {
+			$hash_pass = password_hash($password, PASSWORD_DEFAULT);
+			$affectedRows = $connection->exec("INSERT INTO users(user_name, user_pass, user_email, user_date, user_levl, user_status) 
+																				 VALUES ('{$username}', '{$hash_pass})', '{$user_mail}', CURDATE(), 3, 4)");
+			if($affectedRows != 1) {
+				$errors[] = 'Erreur [7] : erreur indéterminée lors de la création du compte.';
+			}
+			else {
+				$statement = $connection->query("SELECT * FROM users WHERE user_name = '{$username}'");
+				$results = $statement->fetchAll(PDO::FETCH_CLASS,'User');
+				if(sizeof($results) > 0) { 
+					$_SESSION['login'] = $results[0]->getuser_name();
+					$_SESSION['level'] = $results[0]->getuser_lvl();
+					$validators[] = "Le compte {$susername} a bien été créé.";
+					$validators[] = "Un email de validation vous a été envoyé à l'adresse {$user_mail}.";
+					$link_validation = 'http://' . $_SERVER['REMOTE_HOST'] . '/?validation=' . sha1($login.$mail);$code_validation = sha1($login.$mail);
+					send_mail($mail, $link_validation);
+				}
+				else {
+					$errors[] = 'Erreur [8] : erreur indéterminée lors de la création du compte.';
+				}
+			}
+		}
+	}
+}
 
 ?>
 <!DOCTYPE html>
@@ -50,13 +131,23 @@ require('php/class/user.class.php');
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
-            <li class="nav-item<?php if(!isset($_GET['page']) or $_GET['page'] == 'home') echo ' active'; ?>"><a href="?page=home">ACCUEIL</a></li>
-            <li class="nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'events') echo ' active'; ?>"><a href="?page=events">EVENEMENTS</a></li>
-            <li class="nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'galleries') echo ' active'; ?>"><a href="?page=galleries">MEDIA</a></li>
-						<li class="nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'social') echo ' active'; ?>"><a href="?page=social">DISCUSSION</a></li>
-						<li class="nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'login') echo ' active'; ?>"><a href="?page=login"><i class="fa fa-user" aria-hidden="true"></i>
-CONNEXION / INSCRIPTION</a></li>
-            <li class="nav-item"><a data-toggle="modal" data-target="#myModal" href="#myModal"><i class="fa fa-envelope-o"></i></a></li>
+            <li class="text-uppercase nav-item<?php if(!isset($_GET['page']) or $_GET['page'] == 'home') echo ' active'; ?>"><a href="?page=home">ACCUEIL</a></li>
+            <li class="text-uppercase nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'events') echo ' active'; ?>"><a href="?page=events">EVENEMENTS</a></li>
+            <li class="text-uppercase nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'galleries') echo ' active'; ?>"><a href="?page=galleries">MEDIA</a></li>
+						<li class="text-uppercase nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'social') echo ' active'; ?>"><a href="?page=social">DISCUSSION</a></li>
+						<?php
+						if(!isset($_SESSION['login'])) { ?>
+						<li class="text-uppercase nav-item<?php if( isset($_GET['page']) and $_GET['page'] == 'login') echo ' active'; ?>"><a href="?page=login"><i class="fa fa-user" aria-hidden="true"> </i> CONNEXION / INSCRIPTION</a></li>
+						<?php
+						}
+						else {
+						?>
+						<li class="nav-item"><a style="text-transform: uppercase;" class="" href="./php/script/logout.php"><i class="fa fa-user" aria-hidden="true"> </i> <?php echo $_SESSION['login']; ?></a></li>
+						<?php
+						} 
+						?>
+						<li class="nav-item"><a data-toggle="modal" data-target="#myModal" href="#myModal"><i class="fa fa-envelope-o"></i></a></li>
+						
           </ul>
         </div><!--/.nav-collapse -->
       </div>
@@ -72,7 +163,6 @@ CONNEXION / INSCRIPTION</a></li>
 			</div><!-- row -->
 		</div><!-- container -->
 	</div><!-- headerwrap -->
- -->
 
 	<div class="container w">
 	<?php
@@ -188,7 +278,8 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 		</div><!-- container -->
 	</div><!-- Footer -->
 
-
+	<?php
+	if(!isset($_SESSION['login'])) { ?>
 	<!-- MODAL FOR CONTACT -->
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -218,7 +309,8 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-
+	<?php
+	} ?>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
