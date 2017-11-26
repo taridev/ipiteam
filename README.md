@@ -6,8 +6,8 @@ BASE DE DONNEES :
 - Créer un utilisateur ipimanager mdp: ipimanager avec les permissions INSERT UPDATE SELECT
 
 CHAT :
-cd chat
-npm install --save
-npm install --save express@4.15.2
-npm install --save socket.io
-node index
+- cd chat
+- npm install --save
+- npm install --save express@4.15.2
+- npm install --save socket.io
+- node index
