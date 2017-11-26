@@ -23,19 +23,4 @@ Mauris pellentesque ultricies justo, eu porta ligula. Vestibulum ante ipsum prim
         </p>
     </div>
 
-    
-
-    <div class="threeIcons">
-        <div class="iconElement">
-            <p>Icon 1</p>
-        </div>
-        <div class="iconElement">
-            <p>Icon 2</p>
-        </div>
-        <div class="iconElement">
-            <p>Icon 3</p>
-        </div>
-    </div>
-
-    <button class="enSavoirPlus">EN SAVOIR PLUS</button>
 <div>

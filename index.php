@@ -1,5 +1,8 @@
 <?php
 session_start();
+
+if(!isset($_SESSION['level'])) $_SESSION['level'] = 4;
+
 require('./php/script/db-param.php');
 require('php/class/asset.class.php');
 require('php/class/event.class.php');
@@ -27,7 +30,8 @@ if(isset($_POST['login-submit'])) {
     if(sizeof($results) > 0) { 
       if(password_verify($password, $results[0]->getuser_pass())) {
         $_SESSION['login'] = $results[0]->getuser_name();
-				$_SESSION['level'] = $results[0]->getuser_lvl();
+				$_SESSION['level'] = $results[0]->getuser_level();
+				$_SESSION['user_id'] = $results[0]->getuser_id();
 				$validators[] = "Vous êtes maintenant identifié en tant que {$username}";
       }
       else {
@@ -101,12 +105,20 @@ else if(isset($_POST['r-submit'])) {
     <title>IPI - Team</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+		<link href="assets/css/bootstrap.css" rel="stylesheet">
+		<link href="assets/css/ipistyle.css" rel="stylesheet">
 		<link href="assets/css/font-awesome.min.css" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="assets/css/jquery-gmaps-latlon-picker.css"/>
 
     <!-- Custom styles for this template -->
 		<link href="assets/css/main.css" rel="stylesheet">
 		<link href="assets/css/login.css" rel="stylesheet">
+
+		<!-- Lightbox -->
+		<link href="node_modules/lightbox2/src/css/lightbox.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -127,7 +139,7 @@ else if(isset($_POST['r-submit'])) {
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">IPI<i class="fa fa-trophy"></i>TEAM</a>
+          <a class="navbar-brand" href=".">IPI<i class="fa fa-trophy"></i>TEAM</a>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav navbar-right">
@@ -188,46 +200,25 @@ else if(isset($_POST['r-submit'])) {
 			case 'login':
 			require('pages/login.page.php');
 			break;
+			
+			case 'admin':
+				require('pages/admin.page.php');
+			break;
+
 			case 'home':
-			default:
 				require('pages/home.page.php');
 			break;
 		}
+	}
+	else {
+		require('pages/home.page.php');
 	}
 	?>
 	</div><!-- container -->
 
 <?php
 if(!isset($_GET['page']) or $_GET['page'] == 'home') {
-?>
-	<!-- PORTFOLIO SECTION -->
-	<div id="dg">
-		<div class="container">
-			<div class="row centered">
-				<h4>LATEST WORKS</h4>
-				<br>
-				<div class="col-lg-4">
-					<div class="tilt">
-					<a href="#"><img src="assets/img/p01.png" alt=""></a>
-					</div>
-				</div>
 
-				<div class="col-lg-4">
-					<div class="tilt">
-					<a href="#"><img src="assets/img/p03.png" alt=""></a>
-					</div>
-				</div>
-
-				<div class="col-lg-4">
-					<div class="tilt">
-					<a href="#"><img src="assets/img/p02.png" alt=""></a>
-					</div>
-				</div>
-			</div><!-- row -->
-		</div><!-- container -->
-	</div><!-- DG -->
-
-<?php
 }
 ?>
 
@@ -256,18 +247,6 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 	</div><!-- dg -->
 	
 	
-	<div id="r">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-8 col-lg-offset-2">
-					<h4>WE ARE STORYTELLERS. BRANDS ARE OUR SUBJECTS. DESIGN IS OUR VOICE.</h4>
-					<p>We believe ideas come from everyone, everywhere. At BlackTie, everyone within our agency walls is a designer in their own right. And there are a few principles we believe—and we believe everyone should believe—about our design craft. These truths drive us, motivate us, and ultimately help us redefine the power of design.</p>
-				</div>
-			</div><!-- row -->
-		</div><!-- container -->
-	</div><! -- r wrap -->
-	
-	
 	<!-- FOOTER -->
 	<div id="f">
 		<div class="container">
@@ -278,8 +257,6 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 		</div><!-- container -->
 	</div><!-- Footer -->
 
-	<?php
-	if(!isset($_SESSION['login'])) { ?>
 	<!-- MODAL FOR CONTACT -->
 	<!-- Modal -->
 	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -287,37 +264,53 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 	    <div class="modal-content">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	        <h4 class="modal-title" id="myModalLabel">contact us</h4>
+	        <h4 class="modal-title" id="myModalLabel">Contactez-nous</h4>
 	      </div>
 	      <div class="modal-body">
 		        <div class="row centered">
-		        	<p>We are available 24/7, so don't hesitate to contact us.</p>
-		        	<p>
-		        		Somestreet Ave, 987<br/>
-						London, UK.<br/>
-						+44 8948-4343<br/>
-						hi@blacktie.co
-		        	</p>
+		        	<p>Nous sommes displonibles 24/7 alors n'hésitez pas à nous contacter.</p>
+		        	<address>
+							44 Quai de Jemmapes<br/>
+							Paris, France<br/>
+							+33 1 94 08 43 43<br/>
+							ipimanager@ipiteam.ipi
+						</address>
 		        	<div id="mapwrap">
-		<iframe height="300" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.es/maps?t=m&amp;ie=UTF8&amp;ll=52.752693,22.791016&amp;spn=67.34552,156.972656&amp;z=2&amp;output=embed"></iframe>
+		<iframe height="300" width="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://www.google.com/maps/embed/v1/view?zoom=16&center=48.8695613,2.3651253&key=AIzaSyCUjwKJh_yXYCW04dC9K6tKhT-8swp6RtM" allowfullscreen></iframe>
 					</div>	
 		        </div>
 	      </div>
 	      <div class="modal-footer">
-	        <button type="button" class="btn btn-danger" data-dismiss="modal">Save & Go</button>
+	        <button type="button" class="btn btn-danger" data-dismiss="modal">Continuer</button>
 	      </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	<?php
-	} ?>
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="./assets/js/jquery-3.2.1.min.js"></script>
 		<script src="assets/js/bootstrap.min.js"></script>
+
+		<!-- Lightbox script -->
+    <script src="node_modules/lightbox2/src/js/lightbox.js">
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgw9t_iiRIYCzf128gnW_fCddvqIEmlVg"
+    async defer></script>
+
 		
+		<script src="assets/js/jquery-3.2.1.min.js"></script>
 		<script src="assets/js/script.js"></script>
+		<script type="text/javascript" src="assets/js/jquery.googlemap.js"></script>
+		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+		<script src="assets/js/jquery-gmaps-latlon-picker.js"></script>
+    <script>
+        $.datepicker.setDefaults( $.datepicker.ATOM );
+        $( function() {
+          $( "#datepicker" ).datepicker();
+				} );
+    </script>
+  </script>
+
   </body>
 </html>

@@ -37,7 +37,6 @@ class Event implements \JsonSerializable{
                 {$this->type_id}, '{$this->date}', '{$this->zip_code}',
                 '{$this->city}', '{$this->street}', {$this->lat}, {$this->lng}, 
                 '{$this->description}', '{$this->summary}', '{$this->img_path}')";
-        echo $query;
         return $connection->exec($query);
     }
 

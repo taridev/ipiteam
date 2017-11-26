@@ -6,16 +6,16 @@ class User {
     protected $user_pass;
     protected $user_email;
     protected $user_date;
-    protected $user_lvl;
+    protected $user_level;
     protected $user_status;
 
-    public function __contruct($user_id, $user_name, $user_pass, $user_email, $user_date, $user_lvl, $user_status) {
+    public function __contruct($user_id, $user_name, $user_pass, $user_email, $user_date, $user_level, $user_status) {
         $this->user_id = $user_id;
         $this->user_name = $user_name;
         $this->user_pass = $user_pass;
         $this->user_email = $user_email;
         $this->user_date = $user_date;
-        $this->group_user_id = $user_lvl;
+        $this->group_user_id = $user_level;
         $this->user_status = $user_status;
     }
 
@@ -43,12 +43,12 @@ class User {
         return $this->user_pass;
     }
 
-    public function getuser_lvl() {
-        return $this->user_lvl;
+    public function getuser_level() {
+        return $this->user_level;
     }
 
-    public function setuser_lvl($user_lvl) {
-        $this->user_lvl = $user_lvl;
+    public function setuser_level($user_level) {
+        $this->user_level = $user_level;
     }
 
     public function getuser_status() {
@@ -62,7 +62,7 @@ class User {
     public function store_db($connection) {
         return $connection->exec("INSERT INTO users VALUES ({$this->user_id}, '{$this->user_name}',
                                                             '{$this->user_pass}', '{$this->user_email}', 
-                                                            '{$this->user_date}', '{$this->user_lvl}',
+                                                            '{$this->user_date}', '{$this->user_level}',
                                                             '{$this->user_status}')");
     }
 
