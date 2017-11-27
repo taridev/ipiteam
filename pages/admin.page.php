@@ -4,8 +4,7 @@ if(isset($_SESSION['level']) and $_SESSION['level']<3) {
         $event_errors = [];
         $event_success = [];
         if(isset($_POST['submit'])) {
-
-            echo '<br>';
+            print_r($_POST);
             $date = explode ( '/' , $_POST['date']);
             $event = new Event();
             $event->setName(addslashes($_POST['name']));
@@ -98,7 +97,6 @@ if(isset($_SESSION['level']) and $_SESSION['level']<3) {
             <option value="2">Collectif</option>
         </select>
             <input type="text" id="datepicker" name="date" placeholder="date" required/>
-            <!-- <input class="time" tye="number" name="hour" placeholder="00" style="width: 35px; text-align: right;"> -->
             <select name="hours" style="width: 60px; text-align: right;">
 <?php
     for($i=0 ; $i<24 ; $i++) {
