@@ -67,7 +67,7 @@ else if(isset($_POST['r-submit'])) {
 		}
 		if(sizeof($errors) == 0) {
 			$hash_pass = password_hash($password, PASSWORD_DEFAULT);
-			$affectedRows = $connection->exec("INSERT INTO users(user_name, user_pass, user_email, user_date, user_levl, user_status) 
+			$affectedRows = $connection->exec("INSERT INTO users(user_name, user_pass, user_email, user_date, user_level, user_status) 
 																				 VALUES ('{$username}', '{$hash_pass})', '{$user_mail}', CURDATE(), 3, 4)");
 			if($affectedRows != 1) {
 				$errors[] = 'Erreur [7] : erreur indéterminée lors de la création du compte.';
@@ -164,15 +164,6 @@ else if(isset($_POST['r-submit'])) {
         </div><!--/.nav-collapse -->
       </div>
     </div>
-<!-- 
-	<div id="headerwrap">
-		<div class="container">
-			<div class="row centered">
-				<div class="col-lg-8 col-lg-offset-2">
-				<h1>It Doesn't Take a Rocket <b>Scientist</b></h1>
-				<h2>It Takes a Designer</h2>
-				</div>
-			</div><!-- row -->
 		</div><!-- container -->
 	</div><!-- headerwrap -->
 
@@ -293,13 +284,14 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
 		<script src="assets/js/bootstrap.min.js"></script>
 
 		<!-- Lightbox script -->
-    <script src="node_modules/lightbox2/src/js/lightbox.js">
+    <script src="node_modules/lightbox2/src/js/lightbox.js"></script>
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCgw9t_iiRIYCzf128gnW_fCddvqIEmlVg"
     async defer></script>
 
 		
 		<script src="assets/js/jquery-3.2.1.min.js"></script>
+		<script src="http://malsup.github.com/jquery.form.js"></script>
 		<script src="assets/js/script.js"></script>
 		<script type="text/javascript" src="assets/js/jquery.googlemap.js"></script>
 		<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -310,7 +302,5 @@ if(!isset($_GET['page']) or $_GET['page'] == 'home') {
           $( "#datepicker" ).datepicker();
 				} );
     </script>
-  </script>
-
   </body>
 </html>

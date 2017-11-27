@@ -58,7 +58,6 @@ if(isset($_SESSION['level']) and $_SESSION['level']<3) {
                     if (move_uploaded_file($_FILES["img_file"]["tmp_name"], $target_file)) {
                         $event_success[] = "Le fichier ". basename( $_FILES["img_file"]["name"]). " a été téléchargé.";
                         $query = "UPDATE events SET img_path = '$target_file' WHERE id = $insertId";
-                        $event_errors[] = $query;
                         $connection->query($query);
                     } 
                     else {
@@ -133,8 +132,8 @@ if(isset($_SESSION['level']) and $_SESSION['level']<3) {
         <input id="google-maps-input" type="text" class="gllpSearchField">
         <input id="map-button" type="button" class="gllpSearchButton btn btn-primary form-control" value="search">
         <div class="gllpMap">Google Maps</div>
-        <input type="hidden" name="gllpLatitude" class="gllpLatitude" value="20"/>
-        <input type="hidden" name="gllpLongitude" class="gllpLongitude" value="20"/>
+        <input type="hidden" name="gllpLatitude" class="gllpLatitude" value="48.8695613"/>
+        <input type="hidden" name="gllpLongitude" class="gllpLongitude" value="2.3651253"/>
         <input id="map-zoom" type="hidden" class="gllpZoom" value="14"/>
     </fieldset>
     <fieldset class="col-sm-12">

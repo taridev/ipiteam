@@ -5,6 +5,7 @@
             <img style="width: 100%;" src="http://d3nfwcxd527z59.cloudfront.net/content/uploads/2017/11/21113602/Michael-Owen.jpg" />
         </div>
         <h2>L'ASSOCIATION</h2>
+        <div class="text-justify">
         <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce convallis pellentesque iaculis. Duis interdum at risus non lacinia. Morbi laoreet commodo est id gravida. Etiam molestie ex eros, ac facilisis augue placerat eget. Vestibulum scelerisque tincidunt sagittis. Suspendisse dapibus felis dui. Mauris non lectus euismod, lacinia leo et, blandit dui. Fusce eget molestie quam, non convallis dolor.
 </p>
@@ -24,3 +25,4 @@ Mauris pellentesque ultricies justo, eu porta ligula. Vestibulum ante ipsum prim
     </div>
 
 <div>
+</div>

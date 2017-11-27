@@ -31,12 +31,13 @@ class Event implements \JsonSerializable{
         $this->img_path = $img_path;
     }
 
-    public function store_db($connection) {
+    public function store_db($connection, $debug=0) {
         $query = "INSERT INTO events (name, user_editor, type_id, date, zip_code, city, street, lat, lng, description, summary, img_path)
         VALUES( '{$this->name}', {$this->user_editor},
                 {$this->type_id}, '{$this->date}', '{$this->zip_code}',
-                '{$this->city}', '{$this->street}', {$this->lat}, {$this->lng}, 
+                '{$this->city}', '{$this->street}', " . ((empty($this->lat)) ? 0.0 : $this->lat) . ', ' . ((empty($this->lng)) ? 0.0 : $this->lng) . ", 
                 '{$this->description}', '{$this->summary}', '{$this->img_path}')";
+        if($debug == 1)        echo $query;
         return $connection->exec($query);
     }
 

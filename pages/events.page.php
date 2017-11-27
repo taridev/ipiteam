@@ -10,7 +10,7 @@ if(isset($_GET['id'])) {
     $html .= "<h1>".stripslashes($event[0]->getName())."</h1>\n";
     $html .= "<p class=\"small\"> {$event[0]->getDate()} </h2>\n";
     if($event[0]->getImgPath() != '')
-        $html .= "<div style=\"text-align: center; margin-bottom: 20px;\" class=\"text-center\"><img class=\"img-responsive\" src=\"{$event[0]->getImgPath()}\" /></div>\n";
+        $html .= "<div style=\"text-align: center; margin-bottom: 20px;\" class=\"ml-auto mr-autotext-center\"><img class=\"img-responsive\" src=\"{$event[0]->getImgPath()}\" /></div>\n";
     $html .= "<div \"width:80%;\" class=\"container\">\n";
     $html .= "<div class=\"row\"><div style=\"padding-right: 20px;\" id=\"\" class=\"col-sm-6\">\n";
     $html .= "<p id=\"event-description\" class=\"lead\">".stripslashes($event[0]->getDescription())."</p>\n";
