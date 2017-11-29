@@ -2,16 +2,15 @@
 
 ## BASE DE DONNEES :
 
-Créer la base de donnée à l'aide du fichier install/ipiteam_aggouneaudemard.sql
-
 ```sql
-mysql < install/ipiteam_aggouneaudemard.sql
+mysql
+source install/ipiteam_aggouneaudemard.sql
 CREATE USER 'ipimanager'@'localhost' IDENTIFIED BY 'ipiteam';
 GRANT ALL PRIVILEGES ON ipiteam_aggouneaudemard . * TO 'ipiteam'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-### CHAT :
+## modules à installer :
 ```
 npm install lightbox2 --save
 cd chat
