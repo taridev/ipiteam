@@ -12,6 +12,9 @@ The goal of this script from it's beginnings till today is to to provide a bette
 - **HTML or video content.**  If you need to show html or video content, I recommend googling for an alternative script as there are many options.
 - **Social sharing buttons.**
 
+**Image Support**
+- Investigate `srcset` and `<picture>`
+
 **Interactions**
 - Add touch gesture support.
 - Exploring using tilt gesture on mobile devices with extra-wide images.
@@ -36,6 +39,10 @@ The goal of this script from it's beginnings till today is to to provide a bette
 **Caching**
 - Review if and how images should be preloaded
 
+**Error Handling**
+- What happens when an image url is incorrect?
+- What happens when an image takes too long to load?
+
 **Accessibility**
 - Should opening lightbox update the url? and should this url be parsed on page load to show Lightbox automatically?
 - Review alt attributes.
@@ -50,7 +57,8 @@ The goal of this script from it's beginnings till today is to to provide a bette
 - Add event handlers.
 - Allow setting options on the fly.
 - Allow the setting of options from HTML?
-- Allow instantiation with jQuery plugin syntax.
 - Evaluate preloading and caching.
-- Evaluate droppping jQuery requirement.
 - Allow placement inside of a specified element? Orig feature requester was dealing with iframe.
+
+**Dependencies**
+- Drop jQuery requirement.
