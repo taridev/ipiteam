@@ -11,6 +11,7 @@ FLUSH PRIVILEGES;
 ```
 
 ## modules à installer :
+depuis l'invite de commande, se placer dans le repertoire du projet.
 ```
 npm install lightbox2 --save
 cd chat
@@ -19,3 +20,9 @@ npm install --save express@4.15.2
 npm install --save socket.io
 node index
 ```
+
+Pour accéder au compte admin :
+- PSEUDO : 'administrator'
+- PASSWORD : 'password'
+
+En se connectant au compte admin vous pouvez afficher la page de créations d'évents en allant à la page : ipiteam/?page=admin&events
