@@ -6,7 +6,7 @@
 mysql
 source install/ipiteam_aggouneaudemard.sql
 CREATE USER 'ipimanager'@'localhost' IDENTIFIED BY 'ipiteam';
-GRANT ALL PRIVILEGES ON ipiteam_aggouneaudemard . * TO 'ipiteam'@'localhost';
+GRANT ALL PRIVILEGES ON ipiteam_aggouneaudemard . * TO 'ipimanager'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
