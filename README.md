@@ -11,6 +11,9 @@ FLUSH PRIVILEGES;
 ```
 
 ## modules à installer :
+
+télécharger node.js : https://nodejs.org/en/download/
+
 depuis l'invite de commande, se placer dans le repertoire du projet.
 ```
 npm install lightbox2 --save
