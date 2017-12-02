@@ -28,4 +28,4 @@ Pour accéder au compte admin :
 - PSEUDO : 'administrator'
 - PASSWORD : 'password'
 
-En se connectant au compte admin vous pouvez afficher la page de créations d'évents en allant à la page : ipiteam/?page=admin&events
+En se connectant au compte admin vous pouvez afficher la page de créations d'événzments en allant à la page : ipiteam/?page=admin&events
